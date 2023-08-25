@@ -7,3 +7,5 @@
 - Use PascalCase for naming the classes.
 - Use snake_case for naming the files.
 - Use DRY (Don't Repeat Yourself) principle.
+
+- Each page will have its own cubit.
