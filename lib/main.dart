@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/users_list_cubit.dart';
-import 'package:flutter_architecture/users_list_page.dart';
+import 'package:flutter_architecture/data/rest_api_users_repository.dart';
+import 'package:flutter_architecture/domain/repositories/users_repository.dart';
+import 'package:flutter_architecture/ui/users_list/users_list_cubit.dart';
+import 'package:flutter_architecture/ui/users_list/users_list_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+
+final GetIt getIt = GetIt.instance;
 
 void main() {
+  getIt.registerSingleton<UsersRepository>(RestApiUsersRepository());
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
-      create: (context) => UsersListCubit()..fetchUsers(),
+      create: (context) => UsersListCubit(getIt())..fetchUsers(),
     ),
   ], child: const MyApp()));
 }

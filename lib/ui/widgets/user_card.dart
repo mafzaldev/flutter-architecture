@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/user_model.dart';
+import 'package:flutter_architecture/domain/entites/user.dart';
 
 class UserCard extends StatelessWidget {
-  final UserModel user;
+  final User user;
   const UserCard({super.key, required this.user});
 
   @override

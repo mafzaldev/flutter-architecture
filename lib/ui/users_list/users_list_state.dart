@@ -1,14 +1,14 @@
-import 'package:flutter_architecture/user_model.dart';
+import 'package:flutter_architecture/domain/entites/user.dart';
 
 class UsersListState {
-  final List<UserModel> users;
+  final List<User> users;
   final bool isLoading;
   const UsersListState({required this.users, required this.isLoading});
 
   factory UsersListState.empty() =>
       const UsersListState(users: [], isLoading: false);
 
-  UsersListState copyWith({List<UserModel>? users, bool? isLoading}) {
+  UsersListState copyWith({List<User>? users, bool? isLoading}) {
     return UsersListState(
       users: users ?? this.users,
       isLoading: isLoading ?? this.isLoading,
