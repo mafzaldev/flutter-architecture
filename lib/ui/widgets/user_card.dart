@@ -3,7 +3,8 @@ import 'package:flutter_architecture/domain/entites/user.dart';
 
 class UserCard extends StatelessWidget {
   final User user;
-  const UserCard({super.key, required this.user});
+  final VoidCallback? onTap;
+  const UserCard({super.key, required this.user, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class UserCard extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: ListTile(
+        onTap: onTap,
         title: Text(user.name, style: const TextStyle(fontSize: 18)),
         subtitle: Text(user.email),
         leading: CircleAvatar(

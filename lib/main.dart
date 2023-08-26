@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/rest_api_users_repository.dart';
 import 'package:flutter_architecture/domain/repositories/users_repository.dart';
+import 'package:flutter_architecture/ui/user_details/user_details_cubit.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_cubit.dart';
+import 'package:flutter_architecture/ui/users_list/users_list_initial_params.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -13,6 +15,9 @@ void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (context) => UsersListCubit(getIt())..fetchUsers(),
+    ),
+    BlocProvider(
+      create: (context) => UserDetailsCubit(),
     ),
   ], child: const MyApp()));
 }
@@ -29,7 +34,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const UsersListPage(),
+      home: UsersListPage(
+        initialParams: UsersListInitialParams(),
+      ),
     );
   }
 }

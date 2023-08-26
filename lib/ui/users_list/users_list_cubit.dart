@@ -4,11 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UsersListCubit extends Cubit<UsersListState> {
   final UsersRepository usersRepository;
-  UsersListCubit(this.usersRepository) : super(UsersListState.empty());
+  UsersListCubit(this.usersRepository) : super(UsersListState.initial());
 
   Future<void> fetchUsers() async {
-    emit(state.copyWith(isLoading: true));
-    final users = await usersRepository.getUsers();
-    emit(state.copyWith(users: users, isLoading: false));
+    emit(state.copyWith(isLoading: true, error: null));
+    final usersResponse = await usersRepository.getUsers();
+    usersResponse.fold((error) {
+      emit(state.copyWith(error: error.error, isLoading: false));
+    }, (users) {
+      emit(state.copyWith(users: users, isLoading: false));
+    });
   }
 }
