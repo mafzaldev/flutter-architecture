@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/rest_api_users_repository.dart';
 import 'package:flutter_architecture/domain/repositories/users_repository.dart';
 import 'package:flutter_architecture/navigation/app_navigator.dart';
+import 'package:flutter_architecture/network/network_repository.dart';
 import 'package:flutter_architecture/ui/user_details/user_details_cubit.dart';
 import 'package:flutter_architecture/ui/user_details/user_details_initial_params.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_cubit.dart';
@@ -14,10 +15,12 @@ final GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<AppNavigator>(AppNavigator());
-  getIt.registerSingleton<UsersRepository>(RestApiUsersRepository());
+  getIt.registerSingleton<NetworkRepository>(NetworkRepository());
+  getIt.registerSingleton<UsersRepository>(RestApiUsersRepository(getIt()));
   getIt.registerSingleton<UsersListNavigator>(UsersListNavigator(getIt()));
   getIt.registerFactoryParam<UsersListCubit, UsersListInitialParams, dynamic>(
-      (params, _) => UsersListCubit(params, getIt(), getIt()));
+    (params, _) => UsersListCubit(params, getIt(), getIt())..fetchUsers(),
+  );
   getIt.registerFactoryParam<UserDetailsCubit, UserDetailsInitialParams,
       dynamic>((params, _) => UserDetailsCubit(params));
 
