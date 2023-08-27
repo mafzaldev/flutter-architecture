@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/ui/user_details/user_details_initial_params.dart';
-import 'package:flutter_architecture/ui/user_details/user_details_page.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_cubit.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_initial_params.dart';
 import 'package:flutter_architecture/ui/users_list/users_list_state.dart';
@@ -16,6 +14,15 @@ class UsersListPage extends StatefulWidget {
 }
 
 class _UsersListPageState extends State<UsersListPage> {
+  late UsersListCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = BlocProvider.of<UsersListCubit>(context);
+    cubit.navigator.context = context;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +33,7 @@ class _UsersListPageState extends State<UsersListPage> {
       ),
       body: Center(
         child: BlocBuilder(
-          bloc: BlocProvider.of<UsersListCubit>(context),
+          bloc: cubit,
           builder: (context, state) {
             state as UsersListState;
             if (state.error != null) {
@@ -39,16 +46,7 @@ class _UsersListPageState extends State<UsersListPage> {
                         .map(
                           (user) => UserCard(
                             user: user,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UserDetailsPage(
-                                  initialParams: UserDetailsInitialParams(
-                                    user: user,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            onTap: () => cubit.onTapUser(user),
                           ),
                         )
                         .toList(),
